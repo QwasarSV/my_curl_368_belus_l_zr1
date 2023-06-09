@@ -7,6 +7,11 @@
 */
 char* create_get_request(char* path, char* domain, int total_str_len)
 {
+  if (path == NULL || domain == NULL, total_str_len == 0)
+  {
+    perror("Error: Get request imcomplete");
+    return NULL;
+  }
   int len_req = BASE_LENGTH + total_str_len;
   char* new_req = malloc(sizeof(char) * len_req + 1);
   my_bzero(new_req, len_req + 1);
@@ -40,5 +45,17 @@ s_parsed* my_urL_parser(char* url_list)
   my_bzero(url->path, len_path + 1);
   my_memcpy(url->path, ptr_path, len_path);
   url->get_request = create_get_request(url->path, url->domain, len);
+  if (url->get_request == NULL)
+  {
+    return NULL;
+  }
   return url;
+}
+
+void free_url_struct(s_parsed* url)
+{
+  free(url->domain);
+  free(url->path);
+  free(url->get_request);
+  free(url);
 }

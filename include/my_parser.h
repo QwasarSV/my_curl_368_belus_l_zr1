@@ -22,6 +22,6 @@ typedef struct parsed_url_struct s_parsed;
 
 char* create_get_request(char* path, char* domain, int total_str_len);
 s_parsed* my_urL_parser(char* url_list);
-
+void free_url_struct(s_parsed* url);
 
 #endif
