@@ -25,6 +25,10 @@
 #define __PORT__ "80"
 
 int perform_get_request(char* domain,  char* get);
+int send_get_req(char* get, int sockfd);
+void read_socket(int sockfd);
+int connect_to_server(int sockfd, struct addrinfo* servinfo);
+int check_error_code(int err_code);
 
 
 #endif
