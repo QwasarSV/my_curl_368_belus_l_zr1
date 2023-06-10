@@ -7,9 +7,8 @@
 */
 char* create_get_request(char* path, char* domain, int total_str_len)
 {
-  if (path == NULL || domain == NULL, total_str_len == 0)
+  if (is_request_complete(path, domain, total_str_len))
   {
-    perror("Error: Get request imcomplete");
     return NULL;
   }
   int len_req = BASE_LENGTH + total_str_len;
@@ -24,6 +23,40 @@ char* create_get_request(char* path, char* domain, int total_str_len)
 }
 
 /*
+################ set_var #################
+# Allocates memory for a new string and copies a given number of characters from the source string into the new string.
+# @param src {char*} Source string.
+# @param len {int} The length of the string to copy from the source string.
+# @return {char*} Returns a pointer to the newly allocated string.
+*/
+char* set_var(char* src, int len)
+{
+  char* new_str = malloc(sizeof(char)*len + 1);
+  my_bzero(new_str, len + 1);
+  my_memcpy(new_str, src, len);
+  return new_str;
+}
+
+/*
+################ set_parse_struct #################
+# Sets the domain, path, and GET request for a given URL parsing structure.
+# The domain and path are determined from the source string, and the GET request is created from the domain and path.
+# @param url {s_parsed*} Pointer to the URL parsing structure.
+# @param domain {char*} Pointer to the start of the domain in the source string.
+# @param path {char*} Pointer to the start of the path in the source string.
+# @return {void}
+*/
+void set_parse_struct(s_parsed* url, char* domain, char* path)
+{
+  int len_dom = (int)(path - domain);  
+  int len_path = my_strlen(path) + 1;
+  int len = len_dom + len_path;
+  url->domain = set_var(domain, len_dom);
+  url->path = set_var(path, len_path);
+  url->get_request = create_get_request(url->path, url->domain, len);
+}
+
+/*
 ################ my_urL_parser #################
 # Parses a URL into its domain and path components, and then creates a GET request.
 # @return {s_parsed*} A pointer to the parsed URL structure, which contains the domain, path, and GET request.
@@ -33,25 +66,21 @@ s_parsed* my_urL_parser(char* url_list)
   s_parsed* url = malloc(sizeof(s_parsed));
   char* ptr_doma = NULL;
   char* ptr_path = NULL;
-  ptr_doma  = my_strstr(url_list, "://");
-  ptr_path = my_strchr(&ptr_doma[3],'/');
-  int len_dom = (int)(ptr_path - &ptr_doma[3]);
-  int len_path = my_strlen(ptr_path);
-  int len = len_dom + len_path;
-  url->domain = malloc(sizeof(char)*len_dom + 1);
-  my_bzero(url->domain, len_dom + 1);
-  my_memcpy(url->domain, &ptr_doma[3], len_dom);
-  url->path = malloc(sizeof(char)*len_path + 1);
-  my_bzero(url->path, len_path + 1);
-  my_memcpy(url->path, ptr_path, len_path);
-  url->get_request = create_get_request(url->path, url->domain, len);
+  ptr_doma  = my_strstr(url_list, PROTOCOL_SEP);
+  ptr_path = my_strchr(&ptr_doma[3], PATH_SEP);
+  set_parse_struct(url, &ptr_doma[3], ptr_path);  
   if (url->get_request == NULL)
   {
     return NULL;
   }
   return url;
 }
-
+/*
+################ free_url_struct #################
+# Frees the allocated memory of the given URL parsing structure.
+# @param url {s_parsed*} Pointer to the URL parsing structure to be freed.
+# @return {void}
+*/
 void free_url_struct(s_parsed* url)
 {
   free(url->domain);
