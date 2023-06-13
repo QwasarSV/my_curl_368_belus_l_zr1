@@ -20,7 +20,7 @@
 int     perform_get_request(char* domain,  char* get);
 int     send_get_req(char* get, int sockfd);
 int     connect_to_server(int sockfd, struct addrinfo* servinfo);
-void    r_socket_w_out(int sockfd);
+int     r_socket_w_out(int sockfd);
 int     check_error_code(int err_code);
 
 #endif

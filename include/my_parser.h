@@ -3,7 +3,7 @@
 
 #include <main_header.h>
 
-#define MAX_INPUT_TOKENS 20
+#define MAX_INPUT_TOKENS 1000
 #define GET_MSG_P1 "GET "
 #define GET_MSG_P2 " HTTP/1.1\r\nHost:"
 #define GET_MSG_P3 "\r\nConnection: close\r\n\r\n"
@@ -25,5 +25,11 @@ char* set_var(char* src, int len);
 char* create_get_request(char* path, char* domain, int total_str_len);
 s_parsed* my_urL_parser(char* url_list);
 void free_url_struct(s_parsed* url);
+
+int find_ch(char* str, char ch);
+char** my_strtok(char* str, char ch);
+int token_array_size(char** resp_tokens);
+char* set_response_code(char* response);
+
 
 #endif

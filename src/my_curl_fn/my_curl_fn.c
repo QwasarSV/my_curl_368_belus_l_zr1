@@ -26,17 +26,31 @@ int send_get_req(char* get, int sockfd)
 // # Once all the data is read, the socket is closed.
 // # @return {void}
 // */
-void r_socket_w_out(int sockfd)
+int r_socket_w_out(int sockfd)
 {
-  char buffer[512];
-  my_memset(buffer, 0, sizeof(buffer));
-  
-  while (read(sockfd, buffer, sizeof(buffer)-1) > 0)
-  {
-    write(STDOUT_FILENO, buffer, sizeof(buffer)-1);
-    my_memset(buffer, 0, sizeof(buffer));
-  }
-  close(sockfd);
+	int state = 1;
+	char* err_code = NULL;
+	char buffer[512];
+	my_memset(buffer, 0, sizeof(buffer)); 
+	// printf("%s", );
+
+	while (read(sockfd, buffer, sizeof(buffer)-1))
+	{
+		if(state)
+    	{
+			  // printf("%s", buffer);
+			  err_code = set_response_code(buffer);
+			  if (is_success_code(err_code))
+			  {
+				return EXIT_FAILURE;
+			  }
+			  state -=1;
+    	}
+    	write(STDOUT_FILENO, buffer, sizeof(buffer)-1);
+    	my_memset(buffer, 0, sizeof(buffer));
+  	}
+  	close(sockfd);
+	return EXIT_SUCCESS;
 }
 
 // /*
@@ -47,14 +61,14 @@ void r_socket_w_out(int sockfd)
 // */
 int connect_to_server(int sockfd, struct addrinfo* servinfo)
 {
-  if (connect(sockfd, servinfo->ai_addr, servinfo->ai_addrlen) == -1)
-  {
-    perror("Error: could not connect socket");
-    freeaddrinfo(servinfo);
-    close(sockfd);
-    return EXIT_FAILURE;
-  }
-  return EXIT_SUCCESS;
+	if (connect(sockfd, servinfo->ai_addr, servinfo->ai_addrlen) == -1)
+	{
+		perror("Error: could not connect socket");
+    	freeaddrinfo(servinfo);
+    	close(sockfd);
+    	return EXIT_FAILURE;
+  	}
+  	return EXIT_SUCCESS;
 }
 
 // /*
@@ -65,24 +79,24 @@ int connect_to_server(int sockfd, struct addrinfo* servinfo)
 // */
 int perform_get_request(char* domain,  char* get)
 {
-  int sockfd;
-  int err_code;
-  struct addrinfo hints, *servinfo;
-  my_memset(&hints, 0, sizeof hints);
-  hints.ai_family = AF_UNSPEC;
-  hints.ai_socktype = SOCK_STREAM;
-  err_code = getaddrinfo(domain, __PORT__, &hints, &servinfo);
-  if (check_error_code(err_code))
-  {
-    return EXIT_FAILURE;
-  }
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  connect_to_server(sockfd, servinfo);
-  freeaddrinfo(servinfo);
-  if (send_get_req(get, sockfd))
-  {
-    return EXIT_FAILURE;
-  }
-  r_socket_w_out(sockfd);
-  return EXIT_SUCCESS;
+  	int sockfd;
+  	int err_code;
+  	struct addrinfo hints, *servinfo;
+  	my_memset(&hints, 0, sizeof hints);
+  	hints.ai_family = AF_UNSPEC;
+  	hints.ai_socktype = SOCK_STREAM;
+  	err_code = getaddrinfo(domain, __PORT__, &hints, &servinfo);
+  	if (check_error_code(err_code))
+  	{
+    	return EXIT_FAILURE;
+  	}
+  	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  	connect_to_server(sockfd, servinfo);
+  	freeaddrinfo(servinfo);
+  	if (send_get_req(get, sockfd))
+  	{
+    	return EXIT_FAILURE;
+  	}
+  	r_socket_w_out(sockfd);
+  	return EXIT_SUCCESS;
 }

@@ -8,5 +8,6 @@
 
 int check_error_code(int err_code);
 int is_request_complete(char* path, char* domain, int len);
+int is_success_code(char* code_str);
 
 #endif

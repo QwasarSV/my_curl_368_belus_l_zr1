@@ -7,19 +7,19 @@
 */
 char* create_get_request(char* path, char* domain, int total_str_len)
 {
-  if (is_request_complete(path, domain, total_str_len))
-  {
-    return NULL;
-  }
-  int len_req = BASE_LENGTH + total_str_len;
-  char* new_req = malloc(sizeof(char) * len_req + 1);
-  my_bzero(new_req, len_req + 1);
-  my_strcat(new_req, GET_MSG_P1);
-  my_strcat(new_req, path);
-  my_strcat(new_req, GET_MSG_P2);
-  my_strcat(new_req, domain);
-  my_strcat(new_req, GET_MSG_P3);
-  return new_req;
+	if (is_request_complete(path, domain, total_str_len))
+	{
+    	return NULL;
+  	}
+  	int len_req = BASE_LENGTH + total_str_len;
+  	char* new_req = malloc(sizeof(char) * len_req + 1);
+  	my_bzero(new_req, len_req + 1);
+  	my_strcat(new_req, GET_MSG_P1);
+  	my_strcat(new_req, path);
+  	my_strcat(new_req, GET_MSG_P2);
+  	my_strcat(new_req, domain);
+  	my_strcat(new_req, GET_MSG_P3);
+  	return new_req;
 }
 
 /*
@@ -31,10 +31,10 @@ char* create_get_request(char* path, char* domain, int total_str_len)
 */
 char* set_var(char* src, int len)
 {
-  char* new_str = malloc(sizeof(char)*len + 1);
-  my_bzero(new_str, len + 1);
-  my_memcpy(new_str, src, len);
-  return new_str;
+  	char* new_str = malloc(sizeof(char)*len + 1);
+  	my_bzero(new_str, len + 1);
+  	my_memcpy(new_str, src, len);
+  	return new_str;
 }
 
 /*
@@ -48,12 +48,12 @@ char* set_var(char* src, int len)
 */
 void set_parse_struct(s_parsed* url, char* domain, char* path)
 {
-  int len_dom = (int)(path - domain);  
-  int len_path = my_strlen(path) + 1;
-  int len = len_dom + len_path;
-  url->domain = set_var(domain, len_dom);
-  url->path = set_var(path, len_path);
-  url->get_request = create_get_request(url->path, url->domain, len);
+  	int len_dom = (int)(path - domain);  
+  	int len_path = my_strlen(path) + 1;
+  	int len = len_dom + len_path;
+  	url->domain = set_var(domain, len_dom);
+  	url->path = set_var(path, len_path);
+  	url->get_request = create_get_request(url->path, url->domain, len);
 }
 
 /*
@@ -63,17 +63,17 @@ void set_parse_struct(s_parsed* url, char* domain, char* path)
 */
 s_parsed* my_urL_parser(char* url_list)
 {
-  s_parsed* url = malloc(sizeof(s_parsed));
-  char* ptr_doma = NULL;
-  char* ptr_path = NULL;
-  ptr_doma  = my_strstr(url_list, PROTOCOL_SEP);
-  ptr_path = my_strchr(&ptr_doma[3], PATH_SEP);
-  set_parse_struct(url, &ptr_doma[3], ptr_path);  
-  if (url->get_request == NULL)
-  {
-    return NULL;
-  }
-  return url;
+  	s_parsed* url = malloc(sizeof(s_parsed));
+  	char* ptr_doma = NULL;
+  	char* ptr_path = NULL;
+  	ptr_doma  = my_strstr(url_list, PROTOCOL_SEP);
+  	ptr_path = my_strchr(&ptr_doma[3], PATH_SEP);
+  	set_parse_struct(url, &ptr_doma[3], ptr_path);  
+  	if (url->get_request == NULL)
+  	{
+    	return NULL;
+  	}
+  	return url;
 }
 /*
 ################ free_url_struct #################
@@ -83,8 +83,8 @@ s_parsed* my_urL_parser(char* url_list)
 */
 void free_url_struct(s_parsed* url)
 {
-  free(url->domain);
-  free(url->path);
-  free(url->get_request);
-  free(url);
+  	free(url->domain);
+  	free(url->path);
+  	free(url->get_request);
+  	free(url);
 }

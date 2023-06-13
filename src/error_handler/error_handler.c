@@ -28,3 +28,18 @@ int is_request_complete(char* path, char* domain, int len)
     }
     return EXIT_SUCCESS;
 }
+
+
+int is_success_code(char* code_str)
+{
+  int len = my_strlen(code_str);
+  if (my_strcmp("200 OK", code_str) == 0)
+  {
+    free(code_str);
+    return EXIT_SUCCESS;
+  }
+  write(STDOUT_FILENO, code_str, len);
+  printf("%s\n", code_str);
+  free(code_str);
+  return EXIT_FAILURE;
+}
