@@ -33,5 +33,6 @@ char* set_response_code(char* response);
 
 char* init_my_readline();
 char* my_readline(int fd);
+void flush_buffer();
 
 #endif

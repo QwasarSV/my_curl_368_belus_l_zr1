@@ -127,7 +127,9 @@ char* my_readline(int fd)
     return new;
 }
 
-void tmp_buff_reset()
+void flush_buffer()
 {
+    int len = my_strlen(rl_buff);
+    write(STDOUT_FILENO, rl_buff, len);
     my_bzero(rl_buff, READLINE_READ_SIZE);
 }
