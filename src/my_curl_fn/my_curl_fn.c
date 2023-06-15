@@ -50,7 +50,7 @@ int r_socket_w_out(int sockfd)
 	node_t* head = NULL;
 	node_t* tmp  = NULL;
 	char* 	str  = NULL;
-    char 	buffer[512];
+    char 	buffer[ANSWER_BUFFER_SIZE];
 	int 	size_read = 0;
 	init_my_readline();
 	head = set_http_responser_header(sockfd);
@@ -60,14 +60,14 @@ int r_socket_w_out(int sockfd)
 	// 	printf("%s\n",str);
 	// 	free(str);
 	// }
-		my_memset(buffer, 0, sizeof(buffer)); 
+		my_memset(buffer, 0, ANSWER_BUFFER_SIZE); 
  	// printf("%s", );
 	
- 	while (size_read = read(sockfd, buffer, sizeof(buffer)-1) && buffer[0] != '\0')
+ 	while (size_read = read(sockfd, buffer, ANSWER_BUFFER_SIZE))
  	{
 
     	write(STDOUT_FILENO, buffer, size_read);
-    	my_memset(buffer, 0, sizeof(buffer));
+    	my_memset(buffer, 0, ANSWER_BUFFER_SIZE);
    	}
 	free_llist(head);
   	close(sockfd);
