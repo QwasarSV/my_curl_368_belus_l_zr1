@@ -26,29 +26,37 @@ int send_get_req(char* get, int sockfd)
 // # Once all the data is read, the socket is closed.
 // # @return {void}
 // */
+
+node_t* set_http_responser_header(int sockfd)
+{
+	char* 	str  = NULL;
+	node_t* head = NULL;
+	node_t* tmp  = NULL;
+    while ((str = my_readline(sockfd)) != NULL 
+	&& my_strcmp(str, "\r") != 0)
+    {
+		tmp = create_node(str);
+		head = insert_at_head(&head, tmp);
+		// printf("%s\n",head->str);
+		free(str);
+	}
+	free(str);
+	return head;
+}
+
 int r_socket_w_out(int sockfd)
 {
-	int state = 1;
-	char* err_code = NULL;
-	char buffer[512];
-	my_memset(buffer, 0, sizeof(buffer)); 
-	// printf("%s", );
-
-	while (read(sockfd, buffer, sizeof(buffer)-1))
-	{
-		if(state)
-    	{
-			  // printf("%s", buffer);
-			  err_code = set_response_code(buffer);
-			  if (is_success_code(err_code))
-			  {
-				return EXIT_FAILURE;
-			  }
-			  state -=1;
-    	}
-    	write(STDOUT_FILENO, buffer, sizeof(buffer)-1);
-    	my_memset(buffer, 0, sizeof(buffer));
-  	}
+	node_t* head = NULL;
+	node_t* tmp  = NULL;
+	char* 	str  = NULL;
+    init_my_readline();
+	head = set_http_responser_header(sockfd);
+    while ((str = my_readline(sockfd)) != NULL)
+    {
+		printf("%s\n",str);
+		free(str);
+	}
+	free_llist(head);
   	close(sockfd);
 	return EXIT_SUCCESS;
 }

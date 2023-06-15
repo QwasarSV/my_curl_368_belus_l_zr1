@@ -4,13 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #include <sys/socket.h>
 #include <netdb.h>
 #include <errno.h>
 
-#include <my_error_handler.h>
 #include <my_string.h>
+#include <my_error_handler.h>
+#include <my_linkedlist.h>
 #include <my_parser.h>
 
 

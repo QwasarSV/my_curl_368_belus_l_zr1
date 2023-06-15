@@ -31,5 +31,7 @@ char** my_strtok(char* str, char ch);
 int token_array_size(char** resp_tokens);
 char* set_response_code(char* response);
 
+char* init_my_readline();
+char* my_readline(int fd);
 
 #endif
