@@ -10,7 +10,7 @@ int main(int argc, char** argv)
         return EXIT_FAILURE;
     }
 
-    if (perform_get_request(url->domain, url->get_request))
+    if (perform_get_request(url->domain, url->get_request, argv[1]))
     {
         free_url_struct(url);
         return EXIT_FAILURE;

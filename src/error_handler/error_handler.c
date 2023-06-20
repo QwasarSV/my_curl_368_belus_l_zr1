@@ -5,10 +5,15 @@
 # @param err_code {int} Error code to check.
 # @return {int} EXIT_FAILURE if an error occurred, else EXIT_SUCCESS.
 */
-int check_error_code(int err_code)
+int check_error_code(int err_code, char* user_arg)
 {
   if (err_code)
   {
+    if(err_code == -2)
+    {
+      resolve_host_error(user_arg);
+      return EXIT_FAILURE;
+    }
     perror(gai_strerror(err_code));
     return EXIT_FAILURE;
   }

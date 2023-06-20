@@ -8,7 +8,7 @@
 #define ERESOLVEHOST         "could not resolve host: "
 #define ERESOLVEHOST_SIZE    24
 
-int check_error_code(int err_code);
+int check_error_code(int err_code, char* user_arg);
 int is_request_complete(char* path, char* domain, int len);
 void resolve_host_error(char* user_arg);
 

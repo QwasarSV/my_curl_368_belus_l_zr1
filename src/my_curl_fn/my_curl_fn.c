@@ -98,7 +98,7 @@ int connect_to_server(int sockfd, struct addrinfo* servinfo)
 // # The response from the server is printed to the standard output.
 // # @return {int} Returns 0 after successfully executing the function.
 // */
-int perform_get_request(char* domain,  char* get)
+int perform_get_request(char* domain,  char* get, char* user_arg)
 {
   	int sockfd;
   	int err_code;
@@ -107,7 +107,7 @@ int perform_get_request(char* domain,  char* get)
   	hints.ai_family = AF_INET;
   	hints.ai_socktype = SOCK_STREAM;
   	err_code = getaddrinfo(domain, __PORT__, &hints, &servinfo);
-  	if (check_error_code(err_code))
+  	if (check_error_code(err_code, user_arg))
   	{
     	return EXIT_FAILURE;
   	}

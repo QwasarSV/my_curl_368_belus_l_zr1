@@ -19,10 +19,9 @@
 #define ANSWER_BUFFER_SIZE 4096
 #define __PORT__ "80"
 
-int     perform_get_request(char* domain,  char* get);
+int     perform_get_request(char* domain,  char* get, char* user_arg);
 int     send_get_req(char* get, int sockfd);
 int     connect_to_server(int sockfd, struct addrinfo* servinfo);
 int     r_socket_w_out(int sockfd);
-int     check_error_code(int err_code);
 
 #endif
