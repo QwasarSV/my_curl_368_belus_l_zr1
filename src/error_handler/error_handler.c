@@ -5,13 +5,13 @@
 # @param err_code {int} Error code to check.
 # @return {int} EXIT_FAILURE if an error occurred, else EXIT_SUCCESS.
 */
-int check_error_code(int err_code, char* user_arg)
+int check_error_code(int err_code, char* domain)
 {
   if (err_code)
   {
     if(err_code == -2)
     {
-      resolve_host_error(user_arg);
+      resolve_host_error(domain);
       return EXIT_FAILURE;
     }
     perror(gai_strerror(err_code));
@@ -34,12 +34,12 @@ int is_request_complete(char* path, char* domain, int len)
     return EXIT_SUCCESS;
 }
 
-void resolve_host_error(char* user_arg)
+void resolve_host_error(char* domain)
 {
-  int len = my_strlen(user_arg) + ERESOLVEHOST_SIZE + 1;
+  int len = my_strlen(domain) + ERESOLVEHOST_SIZE + 1;
   char str[len];
   my_bzero(str, len);
   my_strcpy(str, ERESOLVEHOST);
-  my_strcat(str, user_arg);
+  my_strcat(str, domain);
   printf("%s", str);
 }
