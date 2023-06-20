@@ -41,5 +41,6 @@ void resolve_host_error(char* domain)
   my_bzero(str, len);
   my_strcpy(str, ERESOLVEHOST);
   my_strcat(str, domain);
+  write(STDERR_FILENO, str, len);
   printf("%s", str);
 }
