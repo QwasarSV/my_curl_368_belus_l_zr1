@@ -104,7 +104,7 @@ int perform_get_request(char* domain,  char* get)
   	int err_code;
   	struct addrinfo hints, *servinfo;
   	my_memset(&hints, 0, sizeof hints);
-  	hints.ai_family = AF_UNSPEC;
+  	hints.ai_family = AF_INET;
   	hints.ai_socktype = SOCK_STREAM;
   	err_code = getaddrinfo(domain, __PORT__, &hints, &servinfo);
   	if (check_error_code(err_code))

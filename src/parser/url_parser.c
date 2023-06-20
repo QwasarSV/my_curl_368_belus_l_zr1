@@ -37,6 +37,19 @@ char* set_var(char* src, int len)
   	return new_str;
 }
 
+
+int diff_len(char* str1, char* str2)
+{
+	int len_a 	= 0;
+	int len_b 	= 0;
+	int result 	= 0; 
+	len_a = my_strlen(str1);
+	len_b = my_strlen(str2);
+	result = len_a - len_b;
+	return result;
+}
+
+
 /*
 ################ set_parse_struct #################
 # Sets the domain, path, and GET request for a given URL parsing structure.
@@ -48,11 +61,13 @@ char* set_var(char* src, int len)
 */
 void set_parse_struct(s_parsed* url, char* domain, char* path)
 {
-  	int len_dom = (int)(path - domain);  
+	int len_dom = diff_len(domain, path);
   	int len_path = my_strlen(path) + 1;
-  	int len = len_dom + len_path;
+	if (len_path == 1) { len_path = 0;}
+	printf("len is %i \n", len_path);
+	int len = len_dom + len_path;
   	url->domain = set_var(domain, len_dom);
-  	url->path = set_var(path, len_path);
+	url->path = set_var(path, len_path);
   	url->get_request = create_get_request(url->path, url->domain, len);
 }
 
@@ -68,6 +83,7 @@ s_parsed* my_urL_parser(char* url_list)
   	char* ptr_path = NULL;
   	ptr_doma  = my_strstr(url_list, PROTOCOL_SEP);
   	ptr_path = my_strchr(&ptr_doma[3], PATH_SEP);
+	printf("the var is :%s \n", ptr_doma);
   	set_parse_struct(url, &ptr_doma[3], ptr_path);  
   	if (url->get_request == NULL)
   	{
