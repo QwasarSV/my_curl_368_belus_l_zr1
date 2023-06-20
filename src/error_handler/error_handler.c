@@ -29,17 +29,12 @@ int is_request_complete(char* path, char* domain, int len)
     return EXIT_SUCCESS;
 }
 
-
-int is_success_code(char* code_str)
+void resolve_host_error(char* user_arg)
 {
-  int len = my_strlen(code_str);
-  if (my_strcmp("200 OK", code_str) == 0)
-  {
-    free(code_str);
-    return EXIT_SUCCESS;
-  }
-  write(STDOUT_FILENO, code_str, len);
-  printf("%s\n", code_str);
-  free(code_str);
-  return EXIT_FAILURE;
+  int len = my_strlen(user_arg) + ERESOLVEHOST_SIZE + 1;
+  char str[len];
+  my_bzero(str, len);
+  my_strcpy(str, ERESOLVEHOST);
+  my_strcat(str, user_arg);
+  printf("%s", str);
 }
