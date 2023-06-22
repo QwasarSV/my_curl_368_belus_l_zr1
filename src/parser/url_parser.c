@@ -75,25 +75,25 @@ void set_parse_struct(s_parsed* url, char* domain, char* path)
 # Parses a URL into its domain and path components, and then creates a GET request.
 # @return {s_parsed*} A pointer to the parsed URL structure, which contains the domain, path, and GET request.
 */
-s_parsed* my_urL_parser(char* url_list)
+s_parsed* my_url_parser(char* url)
 {
-  	s_parsed* url = malloc(sizeof(s_parsed));
+  	s_parsed* url_s = malloc(sizeof(s_parsed));
   	char* ptr_doma = NULL;
   	char* ptr_path = NULL;
-  	ptr_doma  = my_strstr(url_list, PROTOCOL_SEP);
+  	ptr_doma  = my_strstr(url, PROTOCOL_SEP);
 	if (ptr_doma == NULL)
 	{
-		resolve_host_error(url_list);
-		free(url);
+		resolve_host_error(url);
+		free(url_s);
 		return NULL;
 	}
   	ptr_path = my_strchr(&ptr_doma[3], PATH_SEP);
-  	set_parse_struct(url, &ptr_doma[3], ptr_path);  
-  	if (url->get_request == NULL)
+  	set_parse_struct(url_s, &ptr_doma[3], ptr_path);  
+  	if (url_s->get_request == NULL)
   	{
     	return NULL;
   	}
-  	return url;
+  	return url_s;
 }
 /*
 ################ free_url_struct #################

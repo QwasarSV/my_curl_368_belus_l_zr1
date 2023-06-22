@@ -34,6 +34,17 @@ int is_request_complete(char* path, char* domain, int len)
     return EXIT_SUCCESS;
 }
 
+int is_not_url(char* uri)
+{
+  char* result = my_strstr(uri, PROTOCOL_SEP);
+  if (result == NULL)
+  {
+    write(STDERR_FILENO, ENOTURL, ENOTURL_SIZE);
+    return EXIT_FAILURE;
+  }
+    return EXIT_SUCCESS;
+}
+
 void resolve_host_error(char* domain)
 {
   int len = my_strlen(domain) + ERESOLVEHOST_SIZE + 1;
@@ -42,5 +53,5 @@ void resolve_host_error(char* domain)
   my_strcpy(str, ERESOLVEHOST);
   my_strcat(str, domain);
   write(STDERR_FILENO, str, len);
-  printf("%s", str);
+  // printf("%s", str);
 }

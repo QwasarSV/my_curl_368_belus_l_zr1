@@ -11,6 +11,16 @@
 #define PROTOCOL_SEP "://"
 #define PATH_SEP '/'
 
+#ifndef PROTOCOL_ENUM
+#define PROTOCOL_ENUM
+enum protocol {
+    PROTOCOL_HTTP,
+    PROTOCOL_HTTPS,
+    PROTOCOL_UNKNOWN,
+};
+typedef enum protocol protocol_enum
+#endif
+
 #ifndef PARSED_URL
 #define PARSED_URL
 struct parsed_url_struct
@@ -23,11 +33,11 @@ typedef struct parsed_url_struct s_parsed;
 #endif
 char* set_var(char* src, int len);
 char* create_get_request(char* path, char* domain, int total_str_len);
-s_parsed* my_urL_parser(char* url_list);
+s_parsed* my_url_parser(char* url);
 void free_url_struct(s_parsed* url);
 
 int find_ch(char* str, char ch);
-char** my_strtok(char* str, char ch);
+
 int token_array_size(char** resp_tokens);
 char* set_response_code(char* response);
 
