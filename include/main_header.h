@@ -15,6 +15,28 @@
 #include <my_linkedlist.h>
 #include <my_parser.h>
 
+#ifndef URI_ENUM
+#define URI_ENUM
+enum uri_type_enum
+{
+    URI = 1,
+    URL
+};
+typedef enum uri_type_enum uri_enum_t;
+#endif
+
+#ifndef URI_STRUCT
+#define URI_STRUCT
+struct uri_struct
+{
+    uri_enum_t type_uri;
+    union {
+        // uri_p_s_t* uri;
+        url_p_s_t* url;
+    } uri_union;
+};
+typedef struct uri_struct uri_s_t;
+#endif
 
 #define ANSWER_BUFFER_SIZE 4096
 #define __PORT__ "80"

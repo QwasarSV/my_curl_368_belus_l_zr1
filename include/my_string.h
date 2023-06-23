@@ -16,5 +16,6 @@ char*   my_strstr(char* str, char* substr);
 void*   my_memset(void* ptr, char ch, int len);
 void*   my_memcpy(void* dest, void* src, int len);  //my_strdup
 void    my_bzero(void *generic_ptr, size_t n);
+int     find_ch(char* str, char ch);
 char**  my_strtok(char* str, char ch);
 #endif

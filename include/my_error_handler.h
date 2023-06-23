@@ -10,9 +10,9 @@
 #define ENOTURL              "Argument is not an URL\n"
 #define ENOTURL_SIZE         24
 
-int is_request_complete(char* path, char* domain, int len);
-void resolve_host_error(char* domain);
-int is_not_url(char* uri);
-int check_error_code(int err_code, char* domain);
-
+int     is_request_complete(char* path, char* domain, int len);
+void    resolve_host_error(char* domain);
+int     is_not_url(char* uri);
+int     check_error_code(int err_code, char* domain);
+int     exit_status(int exit_code);
 #endif

@@ -55,3 +55,15 @@ void resolve_host_error(char* domain)
   write(STDERR_FILENO, str, len);
   // printf("%s", str);
 }
+
+int exit_status(int exit_code)
+{
+    if (exit_status)
+    {
+        return EXIT_FAILURE;
+    }
+    else
+    {
+        return EXIT_SUCCESS;
+    }
+}

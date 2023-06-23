@@ -54,12 +54,12 @@ int diff_len(char* str1, char* str2)
 ################ set_parse_struct #################
 # Sets the domain, path, and GET request for a given URL parsing structure.
 # The domain and path are determined from the source string, and the GET request is created from the domain and path.
-# @param url {s_parsed*} Pointer to the URL parsing structure.
+# @param url {url_p_s_t*} Pointer to the URL parsing structure.
 # @param domain {char*} Pointer to the start of the domain in the source string.
 # @param path {char*} Pointer to the start of the path in the source string.
 # @return {void}
 */
-void set_parse_struct(s_parsed* url, char* domain, char* path)
+void set_parse_struct(url_p_s_t* url, char* domain, char* path)
 {
 	int len_dom = diff_len(domain, path);
   	int len_path = my_strlen(path) + 1;
@@ -70,14 +70,31 @@ void set_parse_struct(s_parsed* url, char* domain, char* path)
   	url->get_request = create_get_request(url->path, url->domain, len);
 }
 
+
+protocol_enum get_protocol_from_url(char* url)
+{
+    if (my_strncmp(url, _HTTP__, _HTTP_LEN_) == 0)
+	{
+        return PROTOCOL_HTTP;
+    } else if (my_strncmp(url, _HTTPS__, _HTTPS_LEN_) == 0)
+	{
+        return PROTOCOL_HTTPS;
+    } 
+	else
+	{
+        return PROTOCOL_UNKNOWN;
+    }
+}
+
+
 /*
 ################ my_urL_parser #################
 # Parses a URL into its domain and path components, and then creates a GET request.
-# @return {s_parsed*} A pointer to the parsed URL structure, which contains the domain, path, and GET request.
+# @return {url_p_s_t*} A pointer to the parsed URL structure, which contains the domain, path, and GET request.
 */
-s_parsed* my_url_parser(char* url)
+url_p_s_t* my_url_parser(char* url)
 {
-  	s_parsed* url_s = malloc(sizeof(s_parsed));
+  	url_p_s_t* url_s = malloc(sizeof(url_p_s_t));
   	char* ptr_doma = NULL;
   	char* ptr_path = NULL;
   	ptr_doma  = my_strstr(url, PROTOCOL_SEP);
@@ -98,10 +115,10 @@ s_parsed* my_url_parser(char* url)
 /*
 ################ free_url_struct #################
 # Frees the allocated memory of the given URL parsing structure.
-# @param url {s_parsed*} Pointer to the URL parsing structure to be freed.
+# @param url {url_p_s_t*} Pointer to the URL parsing structure to be freed.
 # @return {void}
 */
-void free_url_struct(s_parsed* url)
+void free_url_struct(url_p_s_t* url)
 {
   	free(url->domain);
   	free(url->path);
