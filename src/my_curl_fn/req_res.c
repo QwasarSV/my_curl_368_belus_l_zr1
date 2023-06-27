@@ -41,7 +41,6 @@ node_t* set_http_responser_header(int sockfd)
 		index += 1;
 		free(str);
 	}
-	printf("nb of iteration is :%i\n", index);
 	flush_buffer();
 	free(str);
 	return head;
