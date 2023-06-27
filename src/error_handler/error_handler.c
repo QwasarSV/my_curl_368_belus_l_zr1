@@ -11,7 +11,7 @@ int check_error_code(int err_code, char* domain)
   {
     if(err_code == -2)
     {
-      resolve_host_error(domain);
+      log_host_error(domain);
       return EXIT_FAILURE;
     }
     perror(gai_strerror(err_code));
@@ -45,7 +45,12 @@ int is_not_url(char* uri)
     return EXIT_SUCCESS;
 }
 
-void resolve_host_error(char* domain)
+/*
+################ log_host_error #################
+# This function logs an error message for a given domain that could not be resolved.
+# @return {void}
+*/
+void log_host_error(char* domain)
 {
   int len = my_strlen(domain) + ERESOLVEHOST_SIZE + 1;
   char str[len];
@@ -53,17 +58,4 @@ void resolve_host_error(char* domain)
   my_strcpy(str, ERESOLVEHOST);
   my_strcat(str, domain);
   write(STDERR_FILENO, str, len);
-  // printf("%s", str);
-}
-
-int exit_status(int exit_code)
-{
-    if (exit_status)
-    {
-        return EXIT_FAILURE;
-    }
-    else
-    {
-        return EXIT_SUCCESS;
-    }
 }

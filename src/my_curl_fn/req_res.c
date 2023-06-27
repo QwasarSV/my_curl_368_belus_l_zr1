@@ -32,14 +32,16 @@ node_t* set_http_responser_header(int sockfd)
 	char* 	str  = NULL;
 	node_t* head = NULL;
 	node_t* tmp  = NULL;
+	int index = 0;
     while ((str = my_readline(sockfd)) != NULL 
 	&& my_strcmp(str, "\r") != 0)
     {
 		tmp = create_node(str);
 		head = insert_at_head(&head, tmp);
-		// printf("%s\n",head->str);
+		index += 1;
 		free(str);
 	}
+	printf("nb of iteration is :%i\n", index);
 	flush_buffer();
 	free(str);
 	return head;
@@ -54,18 +56,9 @@ int r_socket_w_out(int sockfd)
 	int 	size_read = 0;
 	init_my_readline();
 	head = set_http_responser_header(sockfd);
-	
-    // while ((str = my_readline(sockfd)) != NULL)
-    // {
-	// 	printf("%s\n",str);
-	// 	free(str);
-	// }
-		my_memset(buffer, 0, ANSWER_BUFFER_SIZE); 
- 	// printf("%s", );
-	
+	my_memset(buffer, 0, ANSWER_BUFFER_SIZE); 
  	while (size_read = read(sockfd, buffer, ANSWER_BUFFER_SIZE))
  	{
-
     	write(STDOUT_FILENO, buffer, size_read);
     	my_memset(buffer, 0, ANSWER_BUFFER_SIZE);
    	}

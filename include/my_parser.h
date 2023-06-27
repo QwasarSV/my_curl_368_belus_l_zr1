@@ -15,42 +15,6 @@
 #define _HTTP_LEN_        7
 #define PATH_SEP          '/'
 
-#ifndef PROTOCOL_ENUM
-#define PROTOCOL_ENUM
-enum protocol
-{
-    PROTOCOL_HTTP,
-    PROTOCOL_HTTPS,
-    PROTOCOL_UNKNOWN,
-};
-typedef enum protocol protocol_enum;
-#endif
-
-#ifndef PARSED_URL
-#define PARSED_URL
-struct parsed_url_struct
-{
-  char* domain;
-  char* path;
-  char* get_request;
-};
-typedef struct parsed_url_struct url_p_s_t;
-#endif
-
-
-#ifndef PARSED_URI
-#define PARSED_URI
-typedef struct parsed_uri_struct
-{
-    char* scheme;
-    char* authority;
-    char* path;
-    char* query;
-    char* fragment;
-};
-typedef struct parsed_uri_struct uri_p_s_t;
-#endif
-
 
 char* set_var(char* src, int len);
 char* create_get_request(char* path, char* domain, int total_str_len);

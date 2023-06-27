@@ -67,16 +67,21 @@ void set_parse_struct(url_p_s_t* url, char* domain, char* path)
 	int len = len_dom + len_path;
   	url->domain = set_var(domain, len_dom);
 	url->path = set_var(path, len_path);
-  	url->get_request = create_get_request(url->path, url->domain, len);
+  	url->req = create_get_request(url->path, url->domain, len);
 }
 
-
+/*
+################ get_protocol_from_url #################
+# This function determines the protocol used in a given URL.
+# @return {protocol_enum} Identified protocol from the URL
+*/
 protocol_enum get_protocol_from_url(char* url)
 {
     if (my_strncmp(url, _HTTP__, _HTTP_LEN_) == 0)
 	{
         return PROTOCOL_HTTP;
-    } else if (my_strncmp(url, _HTTPS__, _HTTPS_LEN_) == 0)
+    } 
+	else if (my_strncmp(url, _HTTPS__, _HTTPS_LEN_) == 0)
 	{
         return PROTOCOL_HTTPS;
     } 
@@ -100,13 +105,13 @@ url_p_s_t* my_url_parser(char* url)
   	ptr_doma  = my_strstr(url, PROTOCOL_SEP);
 	if (ptr_doma == NULL)
 	{
-		resolve_host_error(url);
+		log_host_error(url);
 		free(url_s);
 		return NULL;
 	}
   	ptr_path = my_strchr(&ptr_doma[3], PATH_SEP);
   	set_parse_struct(url_s, &ptr_doma[3], ptr_path);  
-  	if (url_s->get_request == NULL)
+  	if (url_s->req == NULL)
   	{
     	return NULL;
   	}
@@ -122,6 +127,6 @@ void free_url_struct(url_p_s_t* url)
 {
   	free(url->domain);
   	free(url->path);
-  	free(url->get_request);
+  	free(url->req);
   	free(url);
 }
